@@ -1,21 +1,25 @@
 (function ($) {
     "use strict";
 
-    
     $('.nav-menu').superfish({
         animation: {opacity: 'show'},
         speed: 400
     });
-    
-
 
     if ($('#nav-menu-container').length) {
         var $mobile_nav = $('#nav-menu-container').clone().prop({id: 'mobile-nav'});
         $mobile_nav.find('> ul').attr({'class': '', 'id': ''});
         $('body').append($mobile_nav);
-        $('body').prepend('<button type="button" id="mobile-nav-toggle"><i class="fa fa-bars"></i></button>');
-        $('body').append('<div id="mobile-body-overly"></div>');
-        $('#mobile-nav').find('.menu-has-children').prepend('<i class="fa fa-chevron-down"></i>');
+        $('body').prepend('<button type="button" id="mobile-nav-toggle" aria-label="Menu Navigation"><i class="fa fa-bars" aria-hidden="true"></i></button>');
+        $('body').append('<div id="mobile-body-overly" aria-hidden="true"></div>');
+        $('#mobile-nav').find('.menu-has-children').prepend('<i class="fa fa-chevron-down" aria-hidden="true"></i>');
+        
+        $(document).on('keydown', '#mobile-nav-toggle', function(e) {
+            if(e.shiftKey && e.keyCode == 9 && $('body').hasClass('mobile-nav-active')) {
+                e.preventDefault();
+                $('#mobile-nav li a').last().focus();
+            }
+        });
 
         $(document).on('click', '.menu-has-children i', function (e) {
             $(this).next().toggleClass('menu-item-active');
@@ -27,6 +31,7 @@
             $('body').toggleClass('mobile-nav-active');
             $('#mobile-nav-toggle i').toggleClass('fa-times fa-bars');
             $('#mobile-body-overly').toggle();
+            $('body').hasClass('mobile-nav-active')? $(this).attr("aria-expanded", true): $(this).attr("aria-expanded", false);
         });
 
         $(document).click(function (e) {
@@ -36,6 +41,7 @@
                     $('body').removeClass('mobile-nav-active');
                     $('#mobile-nav-toggle i').toggleClass('fa-times fa-bars');
                     $('#mobile-body-overly').fadeOut();
+                    $('#mobile-nav-toggle').attr("aria-expanded", false);
                 }
             }
         });
@@ -43,8 +49,6 @@
         $("#mobile-nav, #mobile-nav-toggle").hide();
     }
     
-    
-  
     $(".nav-menu a, #mobile-nav a").on('click', function (event) {
         if (this.hash !== "") {
             event.preventDefault();
@@ -60,10 +64,8 @@
         }
     });
 
-
     // Stick the header at top on scroll
     $(".header").sticky({topSpacing: 0, zIndex: '50'});
-
 
     // Back to top button
     $(window).scroll(function () {
@@ -77,10 +79,11 @@
         $('html, body').animate({scrollTop: 0}, 1500, 'easeInOutExpo');
         return false;
     });
-
-
     
-
-
+    // jQuery counterUp
+    $('[data-toggle="counter-up"]').counterUp({
+        delay: 10,
+        time: 1000
+    });
 
 })(jQuery);
