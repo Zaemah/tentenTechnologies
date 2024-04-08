@@ -378,6 +378,11 @@ button{
     .technologies{
         display: grid;
       grid-template-columns: 1fr;
+      margin: 0 auto;
+    }
+    .tech{
+        padding: 15px;
+        margin-bottom: 20px;
     }
     .tech img{
         width: 200px;
