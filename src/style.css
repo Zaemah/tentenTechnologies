@@ -6,7 +6,9 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
-
+.main-container{
+    max-width: 2000px;
+}
 .top-header{
 background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url("../images/ten.png");
 background-size:cover;
